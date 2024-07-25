@@ -1,0 +1,187 @@
+//This code prints the Pascal's triangle:
+
+
+
+/******************************************************************************
+
+                            Online C Compiler.
+                Code, Compile, Run and Debug C program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <stdio.h>
+#include <stdint.h>
+#include <float.h>
+#include <math.h>
+
+int main()
+{
+    int a=1;
+    int z=1;
+    int k=1;
+    int i,j=0;
+    int row=0;
+    int array_pri[200];//array of Pascal Triangle's row index
+    int array_pval[200];//array of Pascal Triangle's values
+    //array_pval[0]=1;Hardcoding index 0 ---- not needed
+    //array_pval[1]=1;Hardcoding index 1 ---- not needed
+    //array_pval[2]=1;Hardcoding index 2 ---- not needed
+    int inputt=0;
+    
+    printf("rows=");
+    scanf("%d",&inputt);
+    
+    printf("\n");
+    
+    //*************************Star spaced logic**************************
+    /*for(z=1;z<=inputt;z++)
+    {
+    for(a=1;a<=z;a++)
+    {
+        if(a==1)
+            {
+            for(k=1;k<=inputt-z;k++)
+            {
+                
+                printf(" ");
+            }
+        printf("*");
+            }
+        else
+            {
+        printf(" *");
+            }
+    }
+    printf("\n");
+    }*/
+    
+    //Array holding the row index of Pascal's triangle:
+    z=0;
+    array_pri[0]=1;
+    for(i=1;i<=inputt;i++)
+    {
+    for(j=1;j<=i;j++)
+    {
+        //array_pri[i+j-1]=i;
+        //printf("%d",array_pri[i+j-1]);
+        //printf("%d",i+j-1);
+        array_pri[z]=i;       //arr[0]=1...arr[1]=2....arr[2]=2....arr[3]=3.....arr[4]=3....arr[5]=3.....
+        printf("%d",array_pri[z]);
+        printf("%d",z);
+        printf("\n");
+        z=z+1;
+    }
+    //printf("%d",array_pri[i]);
+    }
+    
+    printf("\n");
+    
+    //Calculating the values of Pascal's triangle:
+    //First hardcoding the indexes - 1,2,4,7,11,16,22(0,1,3,6,10,15,21)
+    for(i=1;i<=inputt;i++)
+    {
+        array_pval[1*(int)pow(i,2)/2-(i/2)]=1;
+        //printf("%d",array_pval[1*(int)pow(i,2)/2-(i/2)]);
+        //printf("%d",1*(int)pow(i,2)/2-(i/2));
+        //printf("\n");
+    }
+    
+    //Then hardcoding the indexes - 2,5,9,14,20
+    for(i=1;i<=inputt;i++)
+    {
+        //array_pval[(1*(int)pow(i,2)+ 3*i)/2]=1;
+        //printf("%d",array_pval[(1*(int)pow(i,2)+ 3*i)/2]);
+        //printf("%d",(1*(int)pow(i,2)+ 3*i)/2);
+        //printf("\n");
+        
+        //Note....Since index 2 starts on the second row and not first row, so we need to defer the function by 1
+        array_pval[(1*(int)pow(i-1,2)+ 3*(i-1))/2]=1;
+        //printf("%d",array_pval[(1*(int)pow(i-1,2)+ 3*(i-1))/2]);
+        //printf("%d",(1*(int)pow(i-1,2)+ 3*(i-1))/2);
+        //printf("\n");
+    }
+    
+    //No of elements in Pascal's triangle with input number of rows(inputt)
+    //printf("%d",inputt*(inputt+1)/2);
+    
+    //Now finding the middle indexes of the triangle(those not at the edge)
+    /*for(i=1;i<=(inputt*(inputt+1)/2);i++)
+    {
+        for(j=1;j<=i+1;j++)
+        {
+            if(i==(1*(int)pow(j,2)/2-(j/2)) || i==((1*(int)pow(j-1,2)+ 3*(j-1))/2))
+            {
+                k=100;
+            }
+        }
+        
+        if(k!=100)
+        {
+             printf("Mid nums%d",i);
+        }
+        
+        k=1;
+    }*/
+    
+    //Now finding the Pascal triangle values at these middle indexes
+    for(i=1;i<=(inputt*(inputt+1)/2);i++)
+    {
+        for(j=1;j<=i+1;j++)
+        {
+            if(i==(1*(int)pow(j,2)/2-(j/2)) || i==((1*(int)pow(j-1,2)+ 3*(j-1))/2))
+            {
+                k=100;
+            }
+        }
+        
+        if(k!=100)
+        {
+             printf("Mid nums%d",i);
+             
+             //finding the row number in which the Pascal Triangle index belongs:
+             row = array_pri[i];
+             printf("row%d",row);
+             printf("\n");
+             
+             array_pval[i]=array_pval[i-row]+array_pval[i-row+1];
+            // printf("midvalues%d",array_pval[i]);
+        }
+        
+        k=1;
+    }
+    
+    //Printing the Pascal's Triangle
+    /*for(i=0;i<(inputt*(inputt+1)/2);i++)
+    {
+        printf("%d",array_pval[i]);
+        printf("\n");
+    }*/
+    
+    i=0;
+    for(z=1;z<=inputt;z++)
+    {
+    for(a=1;a<=z;a++)
+    {
+        if(a==1)
+            {
+            for(k=1;k<=inputt-z;k++)
+            {
+                
+                printf(" ");
+            }
+        printf("%d",array_pval[i]);
+        i=i+1;
+            }
+        else
+            {
+        printf(" ");
+        printf("%d",array_pval[i]);
+        i=i+1;
+            }
+    }
+    printf("\n");
+    }
+    
+    return 0;
+}
