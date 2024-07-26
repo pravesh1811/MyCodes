@@ -1,0 +1,3031 @@
+#include <iostream>
+
+ 
+
+using namespace std;
+
+ 
+
+    //I have declared many arrays(including Sudoku[][] and all rows,columns and blocks) as global, so as for them to retain their instantaneous values when used over and over again....
+
+   
+
+    int Sudoku[9][9];
+
+    int Count[27];
+
+   
+
+   
+
+    int column1[9];
+
+    int column2[9];
+
+    int column3[9];
+
+    int column4[9];
+
+    int column5[9];
+
+    int column6[9];
+
+    int column7[9];
+
+    int column8[9];
+
+    int column9[9];
+
+   
+
+    int row1[9];
+
+    int row2[9];
+
+    int row3[9];
+
+    int row4[9];
+
+    int row5[9];
+
+    int row6[9];
+
+    int row7[9];
+
+    int row8[9];
+
+    int row9[9];
+
+   
+
+    int block1[9];
+
+    int block2[9];
+
+    int block3[9];
+
+    int block4[9];
+
+    int block5[9];
+
+    int block6[9];
+
+    int block7[9];
+
+    int block8[9];
+
+    int block9[9];
+
+   
+
+    int VerticalStrip1[27];
+
+    int VerticalStrip2[27];
+
+    int VerticalStrip3[27];
+
+   
+
+    int HorizontalStrip1[27];
+
+    int HorizontalStrip2[27];
+
+    int HorizontalStrip3[27];
+
+ 
+
+//int* WhichFound(int[]);
+
+int ArrCount(int[]);//counts the no. of +ve nos(1 to 9) in an array
+
+int* MaxCount(int []);//returns maximum no. from an array and also its index
+
+int* Insert(int[]);//inserts the missing no. from 1 to 9 in an array
+
+void DisplaySudoku(int[][9]);
+
+void UpdateSudoku(int[], int);
+
+void UpdateCounts();
+
+void UpdateStrips();
+
+ 
+
+int main()
+
+{
+
+//   int *x,*p,*m;
+
+    int *maxcount,*pointer;
+
+ 
+
+    //The big array of all the 81 nos.
+
+   
+
+   
+
+    int i=0,j=0;
+
+    int maxcount_count;
+
+    int maxcount_index;
+
+ //   int maxcount;
+
+   
+
+   
+
+   
+
+//----------------Reading the Sudoku from the user---------------------------------
+
+ 
+
+    for(i=0;i<9;i++)
+
+    {
+
+        for(j=0;j<9;j++)
+
+        {
+
+            cin>>Sudoku[i][j];
+
+        }
+
+    }
+
+   
+
+   
+
+//----------------Coulmns Definition---------------------------------
+
+ 
+
+    for(i=0;i<9;i++)
+
+    {
+
+        column1[i]=Sudoku[i][0];
+
+    }
+
+   
+
+     for(i=0;i<9;i++)
+
+    {
+
+        column2[i]=Sudoku[i][1];
+
+    }
+
+   
+
+     for(i=0;i<9;i++)
+
+    {
+
+        column3[i]=Sudoku[i][2];
+
+    }
+
+   
+
+     for(i=0;i<9;i++)
+
+    {
+
+        column4[i]=Sudoku[i][3];
+
+    }
+
+   
+
+     for(i=0;i<9;i++)
+
+    {
+
+        column5[i]=Sudoku[i][4];
+
+    }
+
+   
+
+     for(i=0;i<9;i++)
+
+    {
+
+        column6[i]=Sudoku[i][5];
+
+    }
+
+   
+
+     for(i=0;i<9;i++)
+
+    {
+
+        column7[i]=Sudoku[i][6];
+
+    }
+
+   
+
+     for(i=0;i<9;i++)
+
+    {
+
+        column8[i]=Sudoku[i][7];
+
+    }
+
+   
+
+    for(i=0;i<9;i++)
+
+    {
+
+        column9[i]=Sudoku[i][8];
+
+    }
+
+   
+
+//----------------Rows Definition---------------------------------
+
+ 
+
+     for(i=0;i<9;i++)
+
+    {
+
+        row1[i]=Sudoku[0][i];
+
+    }
+
+   
+
+     for(i=0;i<9;i++)
+
+    {
+
+        row2[i]=Sudoku[1][i];
+
+    }
+
+   
+
+     for(i=0;i<9;i++)
+
+    {
+
+        row3[i]=Sudoku[2][i];
+
+    }
+
+   
+
+     for(i=0;i<9;i++)
+
+    {
+
+        row4[i]=Sudoku[3][i];
+
+    }
+
+   
+
+     for(i=0;i<9;i++)
+
+    {
+
+        row5[i]=Sudoku[4][i];
+
+    }
+
+   
+
+     for(i=0;i<9;i++)
+
+    {
+
+        row6[i]=Sudoku[5][i];
+
+    }
+
+   
+
+     for(i=0;i<9;i++)
+
+    {
+
+        row7[i]=Sudoku[6][i];
+
+    }
+
+   
+
+     for(i=0;i<9;i++)
+
+    {
+
+        row8[i]=Sudoku[7][i];
+
+    }
+
+   
+
+    for(i=0;i<9;i++)
+
+    {
+
+        row9[i]=Sudoku[8][i];
+
+    }
+
+   
+
+   
+
+//----------------Blocks Definition---------------------------------
+
+int k;
+
+    k=0;
+
+     for(i=0;i<3;i++)
+
+    {
+
+        for(j=0;j<3;j++)
+
+        {
+
+           block1[k]=Sudoku[i][j];
+
+           k++;
+
+        }
+
+    }
+
+   
+
+    k=0;
+
+     for(i=0;i<3;i++)
+
+    {
+
+        for(j=3;j<6;j++)
+
+        {
+
+            block2[k]=Sudoku[i][j];
+
+            k++;
+
+        }       
+
+    }   
+
+   
+
+    k=0;
+
+     for(i=0;i<3;i++)
+
+    {
+
+        for(j=6;j<9;j++)
+
+        {
+
+            block3[k]=Sudoku[i][j];
+
+            k++;
+
+        }       
+
+    } 
+
+   
+
+    k=0;
+
+     for(i=3;i<6;i++)
+
+    {
+
+        for(j=0;j<3;j++)
+
+        {
+
+            block4[k]=Sudoku[i][j];
+
+            k++;
+
+        }        
+
+    } 
+
+    
+
+    k=0;
+
+     for(i=3;i<6;i++)
+
+    {
+
+        for(j=3;j<6;j++)
+
+        {
+
+            block5[k]=Sudoku[i][j];
+
+            k++;
+
+        }       
+
+    } 
+
+   
+
+    k=0;
+
+     for(i=3;i<6;i++)
+
+    {
+
+        for(j=6;j<9;j++)
+
+        {
+
+            block6[k]=Sudoku[i][j];
+
+            k++;
+
+        }       
+
+    } 
+
+   
+
+    k=0;   
+
+     for(i=6;i<9;i++)
+
+    {
+
+        for(j=0;j<3;j++)
+
+        {
+
+            block7[k]=Sudoku[i][j];
+
+            k++;
+
+        }       
+
+    } 
+
+ 
+
+    k=0;   
+
+     for(i=6;i<9;i++)
+
+    {
+
+        for(j=3;j<6;j++)
+
+        {
+
+            block8[k]=Sudoku[i][j];
+
+            k++;
+
+        }       
+
+    }
+
+   
+
+    k=0;   
+
+     for(i=6;i<9;i++)
+
+    {
+
+        for(j=6;j<9;j++)
+
+        {
+
+            block9[k]=Sudoku[i][j];
+
+            k++;
+
+        }       
+
+    }
+
+   
+
+//----------------Displaying the columns---------------------------------
+
+ 
+
+/*cout<<"----------------Displaying the columns---------------------------------";
+
+ 
+
+cout<<"\nThe first column is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<column1[i];
+
+    }
+
+   
+
+cout<<"\nThe second column is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<column2[i];
+
+    }
+
+   
+
+cout<<"\nThe third column is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<column3[i];
+
+    }
+
+ 
+
+cout<<"\nThe fourth column is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<column4[i];
+
+    }
+
+ 
+
+cout<<"\nThe fifth column is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<column5[i];
+
+    }
+
+   
+
+cout<<"\nThe sixth column is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<column6[i];
+
+    }
+
+ 
+
+cout<<"\nThe seventh column is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<column7[i];
+
+    }
+
+   
+
+cout<<"\nThe eighth column is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<column8[i];
+
+    }
+
+ 
+
+cout<<"\nThe ninth column is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<column9[i];
+
+    }
+
+   
+
+//----------------Displaying the rows---------------------------------
+
+ 
+
+cout<<"----------------Displaying the rows---------------------------------";
+
+ 
+
+cout<<"\nThe first row is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<row1[i];
+
+    }
+
+   
+
+cout<<"\nThe second row is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<row2[i];
+
+    }
+
+   
+
+cout<<"\nThe third row is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<row3[i];
+
+    }
+
+ 
+
+cout<<"\nThe fourth row is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<row4[i];
+
+    }
+
+ 
+
+cout<<"\nThe fifth row is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<row5[i];
+
+    }
+
+   
+
+cout<<"\nThe sixth row is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<row6[i];
+
+    }
+
+ 
+
+cout<<"\nThe seventh row is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<row7[i];
+
+    }
+
+   
+
+cout<<"\nThe eighth row is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<row8[i];
+
+    }
+
+ 
+
+cout<<"\nThe ninth row is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<row9[i];
+
+    }
+
+   
+
+//----------------Displaying the blocks---------------------------------
+
+ 
+
+cout<<"----------------Displaying the blocks---------------------------------";
+
+ 
+
+cout<<"\nThe first block is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<block1[i];
+
+    }
+
+   
+
+cout<<"\nThe second block is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<block2[i];
+
+    }
+
+   
+
+cout<<"\nThe third block is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<block3[i];
+
+    }
+
+   
+
+cout<<"\nThe fourth block is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<block4[i];
+
+    }
+
+   
+
+cout<<"\nThe fifth block is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<block5[i];
+
+    }
+
+   
+
+cout<<"\nThe sixth block is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<block6[i];
+
+    }
+
+   
+
+cout<<"\nThe seventh block is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<block7[i];
+
+    }
+
+   
+
+cout<<"\nThe eighth block is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<block8[i];
+
+    }
+
+   
+
+cout<<"\nThe ninth block is";
+
+     for(i=0;i<9;i++)
+
+    {
+
+       cout<<"\n"<<block9[i];
+
+    }
+
+*/
+
+//The actual Grid of Sudoku
+
+ 
+
+cout<<"\nThis is how the Sudoku would look like : \n\n";
+
+ 
+
+DisplaySudoku(Sudoku);
+
+/*for(i=0;i<13;i++)
+
+{
+
+    cout<<"*\t";
+
+}
+
+ 
+
+cout<<"\n";
+
+ 
+
+for(i=0;i<9;i++)
+
+{
+
+     cout<<"\n";
+
+    
+
+    if((i+3)%3==0 and i!=0)
+
+    {
+
+        cout<<"\n";
+
+        for(k=0;k<13;k++)
+
+        cout<<"*\t";
+
+        cout<<"\n\n";
+
+    }
+
+   cout<<"\n";
+
+    cout<<"*\t";
+
+   
+
+    for(j=0;j<9;j++)
+
+    {
+
+        cout<<Sudoku[i][j];
+
+       
+
+        if((j+1)%3==0)
+
+        cout<<"\t*";
+
+       
+
+        cout<<"\t";
+
+    }
+
+  
+
+    //cout<<"*\t";
+
+    cout<<"\n";
+
+}
+
+cout<<"\n\n";
+
+ 
+
+for(i=0;i<13;i++)
+
+{
+
+    cout<<"*\t";
+
+}
+
+*/
+
+ 
+
+ 
+
+/*
+
+Count[0]= ArrCount(row1);
+
+Count[1]= ArrCount(row2);
+
+Count[2]= ArrCount(row3);
+
+Count[3]= ArrCount(row4);
+
+Count[4]= ArrCount(row5);
+
+Count[5]= ArrCount(row6);
+
+Count[6]= ArrCount(row7);
+
+Count[7]= ArrCount(row8);
+
+Count[8]= ArrCount(row9);
+
+ 
+
+Count[9]= ArrCount(column1);
+
+Count[10]= ArrCount(column2);
+
+Count[11]= ArrCount(column3);
+
+Count[12]= ArrCount(column4);
+
+Count[13]= ArrCount(column5);
+
+Count[14]= ArrCount(column6);
+
+Count[15]= ArrCount(column7);
+
+Count[16]= ArrCount(column8);
+
+Count[17]= ArrCount(column9);
+
+ 
+
+Count[18]= ArrCount(block1);
+
+Count[19]= ArrCount(block2);
+
+Count[20]= ArrCount(block3);
+
+Count[21]= ArrCount(block4);
+
+Count[22]= ArrCount(block5);
+
+Count[23]= ArrCount(block6);
+
+Count[24]= ArrCount(block7);
+
+Count[25]= ArrCount(block8);
+
+Count[26]= ArrCount(block9);
+
+ 
+
+*/
+
+ 
+
+for(j=0;j<2;j++)
+
+{
+
+ 
+
+UpdateStrips();
+
+UpdateCounts();
+
+ 
+
+maxcount = MaxCount(Count);
+
+ 
+
+maxcount_index = *(maxcount+0);
+
+maxcount_count = *(maxcount+1);
+
+ 
+
+cout<<"\nThe index of the max count is : "<<*(maxcount+0);
+
+cout<<"\nThe max count is : "<<*(maxcount+1);
+
+ 
+
+if(maxcount_count == 8)
+
+{
+
+    if(maxcount_index==0)
+
+    {
+
+        pointer=Insert(row1);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            row1[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(row1,0);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==1)
+
+    {
+
+        pointer=Insert(row2);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            row2[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(row2,1);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==2)
+
+    {
+
+        pointer=Insert(row3);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            row3[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(row3,2);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==3)
+
+    {
+
+        pointer=Insert(row4);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            row4[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(row4,3);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==4)
+
+    {
+
+        pointer=Insert(row5);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            row5[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(row5,4);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==5)
+
+    {
+
+        pointer=Insert(row6);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            row6[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(row6,5);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==6)
+
+    {
+
+        pointer=Insert(row7);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            row7[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(row7,6);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==7)
+
+    {
+
+        pointer=Insert(row8);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            row8[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(row8,7);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==8)
+
+    {
+
+     pointer=Insert(row9);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            row9[i]=*(pointer+i);
+
+        }  
+
+        UpdateSudoku(row9,8);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==9)
+
+    {
+
+        pointer=Insert(column1);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            column1[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(column1,9);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==10)
+
+    {
+
+        pointer=Insert(column2);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            column2[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(column2,10);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==11)
+
+    {
+
+        pointer=Insert(column3);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            column3[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(column3,11);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==12)
+
+    {
+
+        pointer=Insert(column4);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            column4[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(column4,12);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==13)
+
+    {
+
+        pointer=Insert(column5);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            column5[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(column5,13);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==14)
+
+    {
+
+        pointer=Insert(column6);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            column6[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(column6,14);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==15)
+
+    {
+
+        pointer=Insert(column7);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            column7[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(column7,15);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==16)
+
+    {
+
+        pointer=Insert(column8);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            column8[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(column8,16);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==17)
+
+    {
+
+        pointer=Insert(column9);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            column9[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(column9,17);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==18)
+
+    {
+
+        pointer=Insert(block1);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            block1[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(block1,18);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==19)
+
+    {
+
+        pointer=Insert(block2);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            block2[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(block2,19);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==20)
+
+    {
+
+        pointer=Insert(block3);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            block3[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(block3,20);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==21)
+
+    {
+
+        pointer=Insert(block4);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            block4[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(block4,21);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==22)
+
+    {
+
+        pointer=Insert(block5);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            block5[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(block5,22);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==23)
+
+    {
+
+        pointer=Insert(block6);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            block6[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(block6,23);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==24)
+
+    {
+
+        pointer=Insert(block7);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            block7[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(block7,24);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==25)
+
+    {
+
+        pointer=Insert(block8);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            block8[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(block8,25);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+    if(maxcount_index==26)
+
+    {
+
+        pointer=Insert(block9);
+
+       
+
+        for(i=0;i<9;i++)
+
+        {
+
+            block9[i]=*(pointer+i);
+
+        }
+
+        UpdateSudoku(block9,26);
+
+        DisplaySudoku(Sudoku);
+
+    }
+
+}
+
+ 
+
+cout<<"\n----The strips are : \n";
+
+ 
+
+for(i=0;i<27;i++)
+
+{
+
+    cout<<"\n"<<VerticalStrip1[i]<<"\n";
+
+}
+
+ 
+
+for(i=0;i<27;i++)
+
+{
+
+    cout<<"\n"<<VerticalStrip2[i]<<"\n";
+
+}
+
+for(i=0;i<27;i++)
+
+{
+
+    cout<<"\n"<<VerticalStrip3[i]<<"\n";
+
+}
+
+for(i=0;i<27;i++)
+
+{
+
+    cout<<"\n"<<HorizontalStrip1[i]<<"\n";
+
+}
+
+for(i=0;i<27;i++)
+
+{
+
+    cout<<"\n"<<HorizontalStrip2[i]<<"\n";
+
+}
+
+for(i=0;i<27;i++)
+
+{
+
+    cout<<"\n"<<HorizontalStrip3[i]<<"\n";
+
+}
+
+ 
+
+ 
+
+ 
+
+}
+
+ 
+
+ 
+
+ 
+
+// cout << "Hello World";
+
+ // system("pause");
+
+   return 0;
+
+}
+
+ 
+
+void UpdateSudoku(int arr[], int index)
+
+{
+
+    int i=0,j=0;
+
+    //----------------Rows Definition---------------------------------
+
+    if(index==0)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[0][i]=arr[i];
+
+    }
+
+   
+
+    }
+
+   
+
+    if(index==1)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[1][i]=arr[i];
+
+    }
+
+   
+
+    }
+
+   
+
+    if(index==2)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[2][i]=arr[i];
+
+    }
+
+   
+
+    }
+
+    
+
+    if(index==3)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[3][i]=arr[i];
+
+    }
+
+   
+
+    }
+
+    
+
+    if(index==4)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[4][i]=arr[i];
+
+    }
+
+   
+
+    }
+
+    
+
+    if(index==5)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[5][i]=arr[i];
+
+    }
+
+   
+
+    }
+
+    
+
+    if(index==6)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[6][i]=arr[i];
+
+    }
+
+   
+
+    }
+
+    
+
+    if(index==7)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[7][i]=arr[i];
+
+    }
+
+   
+
+    }
+
+   
+
+    if(index==8)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[8][i]=arr[i];
+
+    }
+
+   
+
+    }
+
+    
+
+    
+
+    //----------------Coulmns Definition---------------------------------
+
+   
+
+   
+
+   
+
+    if(index==9)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[i][0]=arr[i];
+
+    }
+
+   
+
+    }
+
+   
+
+    if(index==10)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[i][1]=arr[i];
+
+    }
+
+   
+
+    }
+
+    
+
+    if(index==11)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[i][2]=arr[i];
+
+    }
+
+   
+
+    }
+
+   
+
+    if(index==12)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[i][3]=arr[i];
+
+    }
+
+   
+
+    }
+
+   
+
+    if(index==13)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[i][4]=arr[i];
+
+    }
+
+   
+
+    }
+
+   
+
+    if(index==14)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[i][5]=arr[i];
+
+    }
+
+   
+
+    }
+
+   
+
+    if(index==15)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[i][6]=arr[i];
+
+    }
+
+   
+
+    }
+
+   
+
+    if(index==16)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[i][7]=arr[i];
+
+    }
+
+   
+
+    }
+
+   
+
+    if(index==17)
+
+    {
+
+       for(i=0;i<9;i++)
+
+    {
+
+        Sudoku[i][8]=arr[i];
+
+    }
+
+   
+
+    }
+
+   
+
+   
+
+//----------------Blocks Definition---------------------------------
+
+int k;
+
+ 
+
+    if(index==18)
+
+    {
+
+    k=0;
+
+     for(i=0;i<3;i++)
+
+    {
+
+        for(j=0;j<3;j++)
+
+        {
+
+           Sudoku[i][j]=arr[k];
+
+           k++;
+
+        }
+
+    }
+
+    }
+
+   
+
+    if(index==19)
+
+    {
+
+    k=0;
+
+     for(i=0;i<3;i++)
+
+    {
+
+        for(j=3;j<6;j++)
+
+        {
+
+            Sudoku[i][j]=arr[k];
+
+            k++;
+
+        }       
+
+    }
+
+    }
+
+   
+
+    if(index==20)
+
+    {
+
+    k=0;
+
+     for(i=0;i<3;i++)
+
+    {
+
+        for(j=6;j<9;j++)
+
+        {
+
+            Sudoku[i][j]=arr[k];
+
+            k++;
+
+        }       
+
+    } 
+
+    }
+
+   
+
+    if(index==21)
+
+    {
+
+    k=0;
+
+     for(i=3;i<6;i++)
+
+    {
+
+        for(j=0;j<3;j++)
+
+        {
+
+            Sudoku[i][j]=arr[k];
+
+            k++;
+
+        }       
+
+    }
+
+    }
+
+    
+
+    if(index==22)
+
+    {
+
+    k=0;
+
+     for(i=3;i<6;i++)
+
+    {
+
+        for(j=3;j<6;j++)
+
+        {
+
+            Sudoku[i][j]=arr[k];
+
+            k++;
+
+        }       
+
+    } 
+
+    }
+
+   
+
+    if(index==23)
+
+    {
+
+    k=0;
+
+     for(i=3;i<6;i++)
+
+    {
+
+        for(j=6;j<9;j++)
+
+        {
+
+            Sudoku[i][j]=arr[k];
+
+            k++;
+
+        }       
+
+    } 
+
+    }
+
+   
+
+   
+
+    if(index==24)
+
+    {
+
+    k=0;   
+
+     for(i=6;i<9;i++)
+
+    {
+
+        for(j=0;j<3;j++)
+
+        {
+
+            Sudoku[i][j]=arr[k];
+
+            k++;
+
+        }       
+
+    } 
+
+    }
+
+ 
+
+    if(index==25)
+
+    {
+
+    k=0;   
+
+     for(i=6;i<9;i++)
+
+    {
+
+        for(j=3;j<6;j++)
+
+        {
+
+            Sudoku[i][j]=arr[k];
+
+            k++;
+
+        }       
+
+    }
+
+    }
+
+   
+
+    if(index==26)
+
+    {
+
+    k=0;   
+
+     for(i=6;i<9;i++)
+
+    {
+
+        for(j=6;j<9;j++)
+
+        {
+
+            Sudoku[i][j]=arr[k];
+
+            k++;
+
+        }       
+
+    }
+
+    }
+
+   
+
+   
+
+}
+
+ 
+
+void DisplaySudoku(int Sudoku[9][9])
+
+{
+
+    int i,j,k;
+
+ 
+
+cout<<"\n\n";
+
+ 
+
+    for(i=0;i<13;i++)
+
+{
+
+    cout<<"*\t";
+
+}
+
+ 
+
+cout<<"\n";
+
+ 
+
+for(i=0;i<9;i++)
+
+{
+
+     cout<<"\n";
+
+    
+
+    if((i+3)%3==0 and i!=0)
+
+    {
+
+        cout<<"\n";
+
+        for(k=0;k<13;k++)
+
+        cout<<"*\t";
+
+        cout<<"\n\n";
+
+    }
+
+   cout<<"\n";
+
+    cout<<"*\t";
+
+   
+
+    for(j=0;j<9;j++)
+
+    {
+
+        cout<<Sudoku[i][j];
+
+       
+
+        if((j+1)%3==0)
+
+        cout<<"\t*";
+
+       
+
+        cout<<"\t";
+
+    }
+
+  
+
+    //cout<<"*\t";
+
+    cout<<"\n";
+
+}
+
+cout<<"\n\n";
+
+ 
+
+for(i=0;i<13;i++)
+
+{
+
+    cout<<"*\t";
+
+}
+
+}
+
+ 
+
+void UpdateCounts()
+
+{
+
+ 
+
+Count[0]= ArrCount(row1);
+
+Count[1]= ArrCount(row2);
+
+Count[2]= ArrCount(row3);
+
+Count[3]= ArrCount(row4);
+
+Count[4]= ArrCount(row5);
+
+Count[5]= ArrCount(row6);
+
+Count[6]= ArrCount(row7);
+
+Count[7]= ArrCount(row8);
+
+Count[8]= ArrCount(row9);
+
+ 
+
+Count[9]= ArrCount(column1);
+
+Count[10]= ArrCount(column2);
+
+Count[11]= ArrCount(column3);
+
+Count[12]= ArrCount(column4);
+
+Count[13]= ArrCount(column5);
+
+Count[14]= ArrCount(column6);
+
+Count[15]= ArrCount(column7);
+
+Count[16]= ArrCount(column8);
+
+Count[17]= ArrCount(column9);
+
+ 
+
+Count[18]= ArrCount(block1);
+
+Count[19]= ArrCount(block2);
+
+Count[20]= ArrCount(block3);
+
+Count[21]= ArrCount(block4);
+
+Count[22]= ArrCount(block5);
+
+Count[23]= ArrCount(block6);
+
+Count[24]= ArrCount(block7);
+
+Count[25]= ArrCount(block8);
+
+Count[26]= ArrCount(block9);
+
+}
+
+ 
+
+void UpdateStrips()
+
+{
+
+    int i=0,k=0;
+
+   
+
+    for(i=0;i<9;i++)
+
+    {
+
+        VerticalStrip1[k]=column1[i];
+
+        k++;
+
+    }
+
+    for(i=0;i<9;i++)
+
+    {
+
+        VerticalStrip1[k]=column2[i];
+
+        k++;
+
+    }
+
+    for(i=0;i<9;i++)
+
+    {
+
+        VerticalStrip1[k]=column3[i];
+
+        k++;
+
+    }
+
+   
+
+    k=0;
+
+   
+
+    for(i=0;i<9;i++)
+
+    {
+
+        VerticalStrip2[k]=column4[i];
+
+        k++;
+
+    }
+
+    for(i=0;i<9;i++)
+
+    {
+
+        VerticalStrip2[k]=column5[i];
+
+        k++;
+
+    }
+
+    for(i=0;i<9;i++)
+
+    {
+
+        VerticalStrip2[k]=column6[i];
+
+        k++;
+
+    }
+
+   
+
+    k=0;
+
+   
+
+    for(i=0;i<9;i++)
+
+    {
+
+        VerticalStrip3[k]=column7[i];
+
+        k++;
+
+    }
+
+    for(i=0;i<9;i++)
+
+    {
+
+        VerticalStrip3[k]=column8[i];
+
+        k++;
+
+    }
+
+    for(i=0;i<9;i++)
+
+    {
+
+        VerticalStrip3[k]=column9[i];
+
+        k++;
+
+    }
+
+   
+
+    k=0;
+
+   
+
+    for(i=0;i<9;i++)
+
+    {
+
+        HorizontalStrip1[k]=row1[i];
+
+        k++;
+
+    }
+
+    for(i=0;i<9;i++)
+
+    {
+
+        HorizontalStrip1[k]=row2[i];
+
+        k++;
+
+    }
+
+    for(i=0;i<9;i++)
+
+    {
+
+        HorizontalStrip1[k]=row3[i];
+
+        k++;
+
+    }
+
+   
+
+    k=0;
+
+   
+
+    for(i=0;i<9;i++)
+
+    {
+
+        HorizontalStrip2[k]=row4[i];
+
+        k++;
+
+    }
+
+    for(i=0;i<9;i++)
+
+    {
+
+        HorizontalStrip2[k]=row5[i];
+
+        k++;
+
+    }
+
+    for(i=0;i<9;i++)
+
+    {
+
+        HorizontalStrip2[k]=row6[i];
+
+        k++;
+
+    }
+
+   
+
+    k=0;
+
+   
+
+    for(i=0;i<9;i++)
+
+    {
+
+        HorizontalStrip3[k]=row7[i];
+
+        k++;
+
+    }
+
+    for(i=0;i<9;i++)
+
+    {
+
+        HorizontalStrip3[k]=row8[i];
+
+        k++;
+
+    }
+
+    for(i=0;i<9;i++)
+
+    {
+
+        HorizontalStrip3[k]=row9[i];
+
+        k++;
+
+    }
+
+   
+
+}
+
+ 
+
+int ArrCount(int arr[])
+
+    {
+
+ 
+
+    int j=0,i;
+
+  
+
+   for (i=0;i<9;i++)
+
+     {
+
+         if((arr[i]>=1) and (arr[i]<=9))
+
+         {
+
+             j++;
+
+         }
+
+     }
+
+ 
+
+ 
+
+   return(j);
+
+    }
+
+ 
+
+int* MaxCount(int arr[])
+
+{
+
+   int i=0,j=0,k=26;
+
+   int x=0;
+
+  
+
+   int temparray[27];
+
+   static int tempcount[2];
+
+  
+
+  
+
+  
+
+   // cout << a[3]<< endl;
+
+  
+
+    for (i=0;i<27;i++)
+
+   {
+
+       temparray[i]=arr[i];
+
+   }
+
+     
+
+   for(i=0;i<27;i++)
+
+   {
+
+    for(j=0;j<27;j++)
+
+    {
+
+       
+
+    if((temparray[j]>temparray[j+1]) and j!=26)
+
+       {
+
+       
+
+        x=temparray[j];
+
+        temparray[j]=temparray[j+1];
+
+        temparray[j+1]=x;
+
+       
+
+       }
+
+   }
+
+     
+
+   }
+
+  
+
+   for (i=0;i<27;i++)
+
+   {
+
+       cout<<"\nthe "<<i<<"th number is :"<<arr[i];
+
+   }
+
+     
+
+  while(temparray[k]==9)
+
+  {
+
+  k--;
+
+  }
+
+  cout<<"\nk is :\n"<<k;
+
+ 
+
+  for(i=0;i<27;i++)
+
+  {
+
+     
+
+      if(arr[i]==temparray[k])
+
+      {
+
+          break;
+
+      }
+
+  }
+
+ 
+
+  tempcount[0]=i;
+
+  tempcount[1]=temparray[k];
+
+       
+
+    return(tempcount);
+
+}
+
+ 
+
+ int* Insert(int arr[])
+
+    {
+
+              
+
+    int i;
+
+    int found[9]={0,0,0,0,0,0,0,0,0};
+
+    int Missing;
+
+ 
+
+    for(i=0;i<9;i++)
+
+    {
+
+                if(arr[i]==1)
+
+                {
+
+                                found[0]=1;
+
+                }
+
+                if(arr[i]==2)
+
+                {
+
+                                found[1]=1;
+
+                }
+
+                if(arr[i]==3)
+
+                {
+
+                                found[2]=1;
+
+                }
+
+                if(arr[i]==4)
+
+                {
+
+                                found[3]=1;
+
+                }
+
+                if(arr[i]==5)
+
+                {
+
+                                found[4]=1;
+
+                }
+
+                if(arr[i]==6)
+
+                {
+
+                                found[5]=1;
+
+                }
+
+                if(arr[i]==7)
+
+                {
+
+                                found[6]=1;
+
+                }
+
+                if(arr[i]==8)
+
+                {
+
+                                found[7]=1;
+
+                }
+
+                if(arr[i]==9)
+
+                {
+
+                                found[8]=1;
+
+                }
+
+    }
+
+  
+
+//   cout<<"--------------found-------------\n";
+
+  
+
+  
+
+    for(i=0;i<9;i++)
+
+    {
+
+                if(found[i]==0)
+
+                {
+
+                                Missing=i+1;
+
+                               break;
+
+                }
+
+    }
+
+       cout<<"\nThe missing no. is : "<<Missing;
+
+      
+
+       for(i=0;i<9;i++)
+
+       {
+
+           if(arr[i]==0)
+
+           {
+
+               arr[i]=Missing;
+
+           }
+
+       }
+
+            
+
+   return(arr);
+
+    }      
