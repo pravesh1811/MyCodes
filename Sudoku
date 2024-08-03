@@ -1743,8 +1743,15 @@ for(i=0;i<27;i++)
 //The above display of Sudoku solution might need to be commented after the LeftOnes and Commonin3Arrays concept is used
 for (i=0;i<9;i++)
 {
+    int countleftout;
+    
     for(j=0;j<9;j++)
     {
+        int *rowref, *colref, *blockref, *commonin3;
+        int counter;
+        
+        countleftout=0;//initializing here rather than inside if loop, so as to be safe
+        
         if(Sudoku[i][j]==0)
         {
             //Finding the left ones in the row, column, block of this particular cell:
@@ -1752,119 +1759,142 @@ for (i=0;i<9;i++)
             //Left ones in the row:
             if(i==0)
             {
-                LeftOnes(row1);
+                rowref = LeftOnes(row1);
             }
             if(i==1)
             {
-                LeftOnes(row2);
+                rowref = LeftOnes(row2);
             }
             if(i==2)
             {
-                LeftOnes(row3);
+                rowref = LeftOnes(row3);
             }
             if(i==3)
             {
-                LeftOnes(row4);
+                rowref = LeftOnes(row4);
             }
             if(i==4)
             {
-                LeftOnes(row5);
+                rowref = LeftOnes(row5);
             }
             if(i==5)
             {
-                LeftOnes(row6);
+                rowref = LeftOnes(row6);
             }
             if(i==6)
             {
-                LeftOnes(row7);
+                rowref = LeftOnes(row7);
             }
             if(i==7)
             {
-                LeftOnes(row8);
+                rowref = LeftOnes(row8);
             }
             if(i==8)
             {
-                LeftOnes(row9);
+                rowref = LeftOnes(row9);
             }
             
             
             //Left ones in the column:
             if(j==0)
             {
-                LeftOnes(column1);
+                colref = LeftOnes(column1);
             }
             if(j==1)
             {
-                LeftOnes(column2);
+                colref = LeftOnes(column2);
             }
             if(j==2)
             {
-                LeftOnes(column3);
+                colref = LeftOnes(column3);
             }
             if(j==3)
             {
-                LeftOnes(column4);
+                colref = LeftOnes(column4);
             }
             if(j==4)
             {
-                LeftOnes(column5);
+                colref = LeftOnes(column5);
             }
             if(j==5)
             {
-                LeftOnes(column6);
+                colref = LeftOnes(column6);
             }
             if(j==6)
             {
-                LeftOnes(column7);
+                colref = LeftOnes(column7);
             }
             if(j==7)
             {
-                LeftOnes(column8);
+                colref = LeftOnes(column8);
             }
             if(j==8)
             {
-                LeftOnes(column9);
+                colref = LeftOnes(column9);
             }
             
             
             if(i<3 and j<3)
             {
-                LeftOnes(block1);
+                blockref = LeftOnes(block1);
             }
             if(i<3 and j>=3 and j<6 )
             {
-                LeftOnes(block2);
+                blockref = LeftOnes(block2);
             }
             if(i<3 and j>=6 and j<9)
             {
-                LeftOnes(block3);
+                blockref = LeftOnes(block3);
             }
             if(i>=3 and i<6 and j<3)
             {
-                LeftOnes(block4);
+                blockref = LeftOnes(block4);
             }
             if(i>=3 and i<6 and j>=3 and j<6)
             {
-                LeftOnes(block5);
+                blockref = LeftOnes(block5);
             }
             if(i>=3 and i<6 and j>=6 and j<9)
             {
-                LeftOnes(block6);
+                blockref = LeftOnes(block6);
             }
             if(i>=6 and i<9 and j<3)
             {
-                LeftOnes(block7);
+                blockref = LeftOnes(block7);
             }
             if(i>=6 and i<9 and j>=3 and j<6)
             {
-                LeftOnes(block8);
+                blockref = LeftOnes(block8);
             }
             if(i>=6 and i<9 and j>=6 and j<9)
             {
-                LeftOnes(block9);
+                blockref = LeftOnes(block9);
             }
+            
+            commonin3 = Commonin3Arrays(rowref,colref,blockref);
+            
+            for(counter=0;counter<9;counter++)
+            {
+                if(*(commonin3+counter)!=0)
+                {
+                    countleftout++;
+                }
+            }
+            
+            if(countleftout==1)
+            {
+                j=0;
+                break;
+            }
+            
         }//end of if
     }//end of j
+    
+        if(countleftout==1)
+            {
+                i=0;
+            }
+            
 }//end of i
 
 
