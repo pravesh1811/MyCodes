@@ -6,16 +6,14 @@ using namespace std;
 
  
 
-    //I have declared many arrays(including Sudoku[][] and all rows,columns and blocks) as global, so as for them to retain their instantaneous values when used over and over again....
+    //I have declared many arrays(including Sudoku[][] and all rows,columns and blocks) as global, 
+    //so as for them to retain their instantaneous values when used over and over again....
 
    
 
     int Sudoku[9][9];
 
     int Count[27];
-
-   
-
    
 
     int column1[9];
@@ -37,7 +35,6 @@ using namespace std;
     int column9[9];
 
    
-
     int row1[9];
 
     int row2[9];
@@ -57,7 +54,6 @@ using namespace std;
     int row9[9];
 
    
-
     int block1[9];
 
     int block2[9];
@@ -101,6 +97,16 @@ int ArrCount(int[]);//counts the no. of +ve nos(1 to 9) in an array
 int* MaxCount(int []);//returns maximum no. from an array and also its index
 
 int* Insert(int[]);//inserts the missing no. from 1 to 9 in an array
+
+int Missingg[9];//global array to hold the missing values in a size 9 array(valus 1-9))
+
+int* LeftOnes(int arr[]);//returns missing numbers in an array
+
+int* Commonin3Arrays(int arr1[],int arr2[],int arr3[]);//returns the common elements in 3 arrays of size 9
+
+int Common12[9];//global array to hold common values between arrays 1 and 2
+
+int Common123[9];//global array to hold common values between arrays 1,2 and 3
 
 void DisplaySudoku(int[][9]);
 
@@ -1732,29 +1738,143 @@ for(i=0;i<27;i++)
 
 }
 
- 
-
- 
-
- 
-
 }
 
- 
+//The above display of Sudoku solution might need to be commented after the LeftOnes and Commonin3Arrays concept is used
+for (i=0;i<9;i++)
+{
+    for(j=0;j<9;j++)
+    {
+        if(Sudoku[i][j]==0)
+        {
+            //Finding the left ones in the row, column, block of this particular cell:
+            
+            //Left ones in the row:
+            if(i==0)
+            {
+                LeftOnes(row1);
+            }
+            if(i==1)
+            {
+                LeftOnes(row2);
+            }
+            if(i==2)
+            {
+                LeftOnes(row3);
+            }
+            if(i==3)
+            {
+                LeftOnes(row4);
+            }
+            if(i==4)
+            {
+                LeftOnes(row5);
+            }
+            if(i==5)
+            {
+                LeftOnes(row6);
+            }
+            if(i==6)
+            {
+                LeftOnes(row7);
+            }
+            if(i==7)
+            {
+                LeftOnes(row8);
+            }
+            if(i==8)
+            {
+                LeftOnes(row9);
+            }
+            
+            
+            //Left ones in the column:
+            if(j==0)
+            {
+                LeftOnes(column1);
+            }
+            if(j==1)
+            {
+                LeftOnes(column2);
+            }
+            if(j==2)
+            {
+                LeftOnes(column3);
+            }
+            if(j==3)
+            {
+                LeftOnes(column4);
+            }
+            if(j==4)
+            {
+                LeftOnes(column5);
+            }
+            if(j==5)
+            {
+                LeftOnes(column6);
+            }
+            if(j==6)
+            {
+                LeftOnes(column7);
+            }
+            if(j==7)
+            {
+                LeftOnes(column8);
+            }
+            if(j==8)
+            {
+                LeftOnes(column9);
+            }
+            
+            
+            if(i<3 and j<3)
+            {
+                LeftOnes(block1);
+            }
+            if(i<3 and j>=3 and j<6 )
+            {
+                LeftOnes(block2);
+            }
+            if(i<3 and j>=6 and j<9)
+            {
+                LeftOnes(block3);
+            }
+            if(i>=3 and i<6 and j<3)
+            {
+                LeftOnes(block4);
+            }
+            if(i>=3 and i<6 and j>=3 and j<6)
+            {
+                LeftOnes(block5);
+            }
+            if(i>=3 and i<6 and j>=6 and j<9)
+            {
+                LeftOnes(block6);
+            }
+            if(i>=6 and i<9 and j<3)
+            {
+                LeftOnes(block7);
+            }
+            if(i>=6 and i<9 and j>=3 and j<6)
+            {
+                LeftOnes(block8);
+            }
+            if(i>=6 and i<9 and j>=6 and j<9)
+            {
+                LeftOnes(block9);
+            }
+        }//end of if
+    }//end of j
+}//end of i
 
- 
 
- 
-
-// cout << "Hello World";
-
- // system("pause");
+// system("pause");
 
    return 0;
 
 }
 
- 
+//int main() ends here.....Hereafter, all function definitions can be written but functions can't be called 
 
 void UpdateSudoku(int arr[], int index)
 
@@ -2889,7 +3009,7 @@ int* MaxCount(int arr[])
 }
 
  
-
+//This array function might get redundant once proper missing and left out logics are written
  int* Insert(int arr[])
 
     {
@@ -3029,3 +3149,119 @@ int* MaxCount(int arr[])
    return(arr);
 
     }      
+    
+    
+    int* LeftOnes(int arr[])
+
+    {
+
+    int i;
+
+    //Missingg[9]={1,2,3,4,5,6,7,8,9};
+    //Not able to initialize like this....Need to check why this doesn't work
+
+    for(i=0;i<9;i++)
+    {
+    Missingg[i]=i+1;  //Will hold the numbers that are missing in the size 9 array. It could be anything from 1 to 9
+    }
+ 
+
+    for(i=0;i<9;i++)
+
+    {
+
+        if(arr[i]==1)
+        {
+        Missingg[0]=0;
+        }
+        //break; I won't break the loop here, as we want all the missing numbers from the array
+        if(arr[i]==2)
+        {
+        Missingg[1]=0;
+        }
+        if(arr[i]==3)
+        {
+        Missingg[2]=0;
+        }
+        if(arr[i]==4)
+        {
+        Missingg[3]=0;
+        }
+        if(arr[i]==5)
+        {
+        Missingg[4]=0;
+        }
+        if(arr[i]==6)
+        {
+        Missingg[5]=0;
+        }
+        if(arr[i]==7)
+        {
+        Missingg[6]=0;
+        }
+        if(arr[i]==8)
+        {
+        Missingg[7]=0;
+        }
+        if(arr[i]==9)
+        {
+        Missingg[8]=0;
+        }
+    }        
+
+   return(Missingg);
+
+    }    
+    
+    
+    int* Commonin3Arrays(int arr1[],int arr2[],int arr3[])
+
+    {
+
+    int i,j;
+    
+    int k;
+
+    for(i=0;i<9;i++)
+    {
+        k=0;
+        
+        for(j=0;j<9;j++)
+        {
+           if((arr1[i]==arr2[j]) || (arr1[i]==0))
+           {
+              Common12[i] = arr1[i];
+              k=1;
+           }
+        }
+        
+        if(k==0)
+        {
+            Common12[i] = 0;
+        }
+        
+    }
+    
+    for(i=0;i<9;i++)
+    {
+        k=0;
+        
+        for(j=0;j<9;j++)
+        {
+           if((Common12[i]==arr3[j]) || (Common12[i]==0))
+           {
+              Common123[i] = Common12[i];
+              k=1;
+           }
+        }
+        
+        if(k==0)
+        {
+            Common123[i] = 0;
+        }
+        
+    }
+
+   return(Common123);
+
+    }
