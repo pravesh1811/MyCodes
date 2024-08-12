@@ -115,6 +115,10 @@ void UpdateCounts();
 
 void UpdateStrips();
 
+int Sudokutemp[9][9];
+
+int sudokunonzerocount(int[][9]);
+
  
 
 int main()
@@ -566,6 +570,12 @@ for (i=0;i<9;i++)
 
 cout<<"\n";
 
+cout<<"sudokunonzerocount"<<sudokunonzerocount(Sudoku);
+cout<<"\n";
+
+while(sudokunonzerocount(Sudoku)<1)//should run till all the cells in Sudoku are non zero
+{
+
 int totalloopcount=0;
 
 for (i=0;i<9;i++)
@@ -757,6 +767,10 @@ cout<<"The total loopcount is:\n\n"<<totalloopcount;
 
 cout<<"The final Sudoku output to user is:\n\n";
 
+}//end of while
+
+
+
 for (i=0;i<9;i++)
 {
     for(j=0;j<9;j++)
@@ -886,4 +900,26 @@ int* Commonin3Arrays(int arr1[],int arr2[],int arr3[])
 
    return(Common123);
 
+}
+
+int sudokunonzerocount(int Sudokutemp[][9])
+{
+    int counti;
+    int countj;
+    
+    int tempsudokunonzerocount=0;
+    
+    for(counti=0;counti<9;counti++)
+    {
+        for(countj=0;countj<9;countj++)
+        {
+            if(Sudokutemp[counti][countj]!=0)
+            {
+                tempsudokunonzerocount++;
+            }
+        }
+    }
+    
+    return(tempsudokunonzerocount);
+    
 }
