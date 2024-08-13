@@ -123,7 +123,7 @@ int* RemainingRowsColumnsinBlock(int,int);
 
 int tempindex[4];
 
-int index[4];
+int index[4], commoninarr[9];
  
 
 int main()
@@ -782,32 +782,193 @@ cout<<"The total loopcount is:\n\n"<<totalloopcount;
 //Finding commonin3 array values(can be 2,3,4 any number of elements) in the Sudoku rows/columns with these indexes
 //the entire code of Leftones and commonin3 goes here(except count logic)
 
-//Determining the row and column index for the RemainingRowsColumnsinBlock
-
-indexpointer = RemainingRowsColumnsinBlock(i,j);
-
-for(k=0;k<4;k++)
+for (i=0;i<9;i++)
 {
-    index[k]=*(indexpointer+k);
-    cout<<"k ye hai: "<<k;
-    cout<<" index[k] ye hai: "<<index[k];
-    cout<<"\n";
-}
-
-//Searching the commonin3 outputs in the 4 entities returned from RemainingRowsColumnsinBlock:
-int found=0;
-
-//1st row:
-for(m=0;m<9;m++)
-{
-for(l=0;l<9;l++)
-{
-    if(commonin3[m]!=0 and Sudoku[index[0]][l]==commonin3[m])
+    for(j=0;j<9;j++)
     {
-        found++;
-    }
-}
-}
+        int *rowref, *colref, *blockref, rowrefarr[9], colrefarr[9], blockrefarr[9], *commonin3;
+        int counter, SudokuValue;
+        
+        if(Sudoku[i][j]==0)    //IMP: The first form of this Sudoku array should be the OG array entered by the user
+        {
+            //Finding the left ones in the row, column, block of this particular cell:
+            
+            //Left ones in the row:
+            if(i==0)
+            {
+                rowref = LeftOnes(row1);
+            }
+            if(i==1)
+            {
+                rowref = LeftOnes(row2);
+            }
+            if(i==2)
+            {
+                rowref = LeftOnes(row3);
+            }
+            if(i==3)
+            {
+                rowref = LeftOnes(row4);
+            }
+            if(i==4)
+            {
+                rowref = LeftOnes(row5);
+            }
+            if(i==5)
+            {
+                rowref = LeftOnes(row6);
+            }
+            if(i==6)
+            {
+                rowref = LeftOnes(row7);
+            }
+            if(i==7)
+            {
+                rowref = LeftOnes(row8);
+            }
+            if(i==8)
+            {
+                rowref = LeftOnes(row9);
+            }
+            
+            //Pointer returned from LeftOnes can't be parsed directly and used again.
+            //Tested this(see the "Sudoku LeftOnesCommonin3 test" program for details)
+            //Hence, again segregating it into array elements
+            
+            //assigning here only rather than after blockref, since that was overriding the row and col with block
+            for(counter=0;counter<9;counter++)
+            {
+            rowrefarr[counter]=*(rowref+counter);
+            //cout<<*(rowref+counter)<<" ";
+            }
+            
+            //Left ones in the column:
+            if(j==0)
+            {
+                colref = LeftOnes(column1);
+            }
+            if(j==1)
+            {
+                colref = LeftOnes(column2);
+            }
+            if(j==2)
+            {
+                colref = LeftOnes(column3);
+            }
+            if(j==3)
+            {
+                colref = LeftOnes(column4);
+            }
+            if(j==4)
+            {
+                colref = LeftOnes(column5);
+            }
+            if(j==5)
+            {
+                colref = LeftOnes(column6);
+            }
+            if(j==6)
+            {
+                colref = LeftOnes(column7);
+            }
+            if(j==7)
+            {
+                colref = LeftOnes(column8);
+            }
+            if(j==8)
+            {
+                colref = LeftOnes(column9);
+            }
+            
+            //assigning here only rather than after blockref, since that was overriding the row and col with block
+            for(counter=0;counter<9;counter++)
+            {
+            colrefarr[counter]=*(colref+counter);
+            //cout<<*(colref+counter)<<" ";
+            }
+            
+            //Left ones in block
+            if(i<3 and j<3)
+            {
+                blockref = LeftOnes(block1);
+            }
+            if(i<3 and j>=3 and j<6 )
+            {
+                blockref = LeftOnes(block2);
+            }
+            if(i<3 and j>=6 and j<9)
+            {
+                blockref = LeftOnes(block3);
+            }
+            if(i>=3 and i<6 and j<3)
+            {
+                blockref = LeftOnes(block4);
+            }
+            if(i>=3 and i<6 and j>=3 and j<6)
+            {
+                blockref = LeftOnes(block5);
+            }
+            if(i>=3 and i<6 and j>=6 and j<9)
+            {
+                blockref = LeftOnes(block6);
+            }
+            if(i>=6 and i<9 and j<3)
+            {
+                blockref = LeftOnes(block7);
+            }
+            if(i>=6 and i<9 and j>=3 and j<6)
+            {
+                blockref = LeftOnes(block8);
+            }
+            if(i>=6 and i<9 and j>=6 and j<9)
+            {
+                blockref = LeftOnes(block9);
+            }
+            
+            for(counter=0;counter<9;counter++)
+            {
+            blockrefarr[counter]=*(blockref+counter);
+            //cout<<*(colref+counter)<<" ";
+            }
+            
+            commonin3 = Commonin3Arrays(rowrefarr,colrefarr,blockrefarr);
+            
+            for(counter=0;counter<9;counter++)
+            {
+                commoninarr[counter] = *(commonin3+counter);
+            }
+            
+            //Determining the row and column index for the RemainingRowsColumnsinBlock
+
+            indexpointer = RemainingRowsColumnsinBlock(i,j);
+            
+            for(k=0;k<4;k++)
+            {
+                index[k]=*(indexpointer+k);
+                cout<<"k ye hai: "<<k;
+                cout<<" index[k] ye hai: "<<index[k];
+                cout<<"\n";
+            }
+            
+            //Searching the commonin3 outputs in the 4 entities returned from RemainingRowsColumnsinBlock:
+            int found=0;
+            
+            //1st row:
+            for(m=0;m<9;m++)
+            {
+            for(l=0;l<9;l++)
+            {
+                if(commoninarr[m]!=0 and Sudoku[index[0]][l]==commoninarr[m])
+                {
+                    found++;
+                }
+            }
+            }
+            
+        }//end of if
+    }//end of j
+            
+}//end of i
 
 }//end of while
 
