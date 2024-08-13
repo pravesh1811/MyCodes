@@ -142,7 +142,7 @@ int main()
 
    
 
-    int i=0,j=0;
+    int i=0,j=0,l=0,m=0;
     
     int *indexpointer;
 
@@ -779,6 +779,7 @@ cout<<"The total loopcount is:\n\n"<<totalloopcount;
 //This is where we calculate blank cells of Sudoku through commonin3->RemainingRowsColumnsinBlock method
 //,those which couldn't be calculated in the above method
 
+//Finding commonin3 array values(can be 2,3,4 any number of elements) in the Sudoku rows/columns with these indexes
 //the entire code of Leftones and commonin3 goes here(except count logic)
 
 //Determining the row and column index for the RemainingRowsColumnsinBlock
@@ -793,18 +794,34 @@ for(k=0;k<4;k++)
     cout<<"\n";
 }
 
+//Searching the commonin3 outputs in the 4 entities returned from RemainingRowsColumnsinBlock:
+int found=0;
+
+//1st row:
+for(m=0;m<9;m++)
+{
+for(l=0;l<9;l++)
+{
+    if(commonin3[m]!=0 and Sudoku[index[0]][l]==commonin3[m])
+    {
+        found++;
+    }
+}
+}
+
 }//end of while
 
+/*
 i=2;j=7;
 indexpointer = RemainingRowsColumnsinBlock(i,j);
 
 for(k=0;k<4;k++)
 {
     index[k]=*(indexpointer+k);
-    cout<<"k ye hai: "<<index[k];
+    cout<<"k ye hai: "<<k;
     cout<<" index[k] ye hai: "<<index[k];
     cout<<"\n";
-}
+}*/
 
 cout<<"The final Sudoku output to user is:\n\n";
 
