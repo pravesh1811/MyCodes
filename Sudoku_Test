@@ -143,6 +143,8 @@ int main()
    
 
     int i=0,j=0;
+    
+    int *indexpointer;
 
     int maxcount_count;
 
@@ -781,13 +783,28 @@ cout<<"The total loopcount is:\n\n"<<totalloopcount;
 
 //Determining the row and column index for the RemainingRowsColumnsinBlock
 
-int *indexpointer;
-
 indexpointer = RemainingRowsColumnsinBlock(i,j);
 
-
+for(k=0;k<4;k++)
+{
+    index[k]=*(indexpointer+k);
+    cout<<"k ye hai: "<<k;
+    cout<<" index[k] ye hai: "<<index[k];
+    cout<<"\n";
+}
 
 }//end of while
+
+i=2;j=7;
+indexpointer = RemainingRowsColumnsinBlock(i,j);
+
+for(k=0;k<4;k++)
+{
+    index[k]=*(indexpointer+k);
+    cout<<"k ye hai: "<<index[k];
+    cout<<" index[k] ye hai: "<<index[k];
+    cout<<"\n";
+}
 
 cout<<"The final Sudoku output to user is:\n\n";
 
