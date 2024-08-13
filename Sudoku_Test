@@ -119,6 +119,11 @@ int Sudokutemp[9][9];
 
 int sudokunonzerocount(int[][9]);
 
+int* RemainingRowsColumnsinBlock(int,int);
+
+int tempindex[4];
+
+int index[4];
  
 
 int main()
@@ -767,10 +772,18 @@ for (i=0;i<9;i++)
 
 cout<<"The total loopcount is:\n\n"<<totalloopcount;
 
+//**************************************|||||||||||||||||||||||||||||**********************************************
+
 //This is where we calculate blank cells of Sudoku through commonin3->RemainingRowsColumnsinBlock method
 //,those which couldn't be calculated in the above method
 
 //the entire code of Leftones and commonin3 goes here(except count logic)
+
+//Determining the row and column index for the RemainingRowsColumnsinBlock
+
+int *indexpointer;
+
+indexpointer = RemainingRowsColumnsinBlock(i,j);
 
 
 
@@ -929,4 +942,88 @@ int sudokunonzerocount(int Sudokutemp[][9])
     
     return(tempsudokunonzerocount);
     
+}
+
+int* RemainingRowsColumnsinBlock(int i,int j)
+{
+    //Initializing tempindex
+    
+    tempindex[0]=0;//row to check
+    tempindex[1]=0;//row to check
+    tempindex[2]=0;//column to check
+    tempindex[3]=0;//column to check
+    
+    if(i%3==0 and j%3==0)
+    {
+        tempindex[0]=i+1;//row to check
+        tempindex[1]=i+2;//row to check
+        tempindex[2]=j+1;//column to check
+        tempindex[3]=j+2;//column to check
+    }
+    
+    if(i%3==0 and j%3==1)
+    {
+        tempindex[0]=i+1;//row to check
+        tempindex[1]=i+2;//row to check
+        tempindex[2]=j-1;//column to check
+        tempindex[3]=j+1;//column to check
+    }
+    
+    if(i%3==0 and j%3==2)
+    {
+        tempindex[0]=i+1;//row to check
+        tempindex[1]=i+2;//row to check
+        tempindex[2]=j-2;//column to check
+        tempindex[3]=j-1;//column to check
+    }
+    
+    if(i%3==1 and j%3==0)
+    {
+        tempindex[0]=i-1;//row to check
+        tempindex[1]=i+1;//row to check
+        tempindex[2]=j+1;//column to check
+        tempindex[3]=j+2;//column to check
+    }
+    
+    if(i%3==1 and j%3==1)
+    {
+        tempindex[0]=i-1;//row to check
+        tempindex[1]=i+1;//row to check
+        tempindex[2]=j-1;//column to check
+        tempindex[3]=j+1;//column to check
+    }
+    
+    if(i%3==1 and j%3==2)
+    {
+        tempindex[0]=i-1;//row to check
+        tempindex[1]=i+1;//row to check
+        tempindex[2]=j-2;//column to check
+        tempindex[3]=j-1;//column to check
+    }
+    
+    if(i%3==2 and j%3==0)
+    {
+        tempindex[0]=i-2;//row to check
+        tempindex[1]=i-1;//row to check
+        tempindex[2]=j+1;//column to check
+        tempindex[3]=j+2;//column to check
+    }
+    
+    if(i%3==2 and j%3==1)
+    {
+        tempindex[0]=i-2;//row to check
+        tempindex[1]=i-1;//row to check
+        tempindex[2]=j-1;//column to check
+        tempindex[3]=j+1;//column to check
+    }
+    
+    if(i%3==2 and j%3==2)
+    {
+        tempindex[0]=i-2;//row to check
+        tempindex[1]=i-1;//row to check
+        tempindex[2]=j-2;//column to check
+        tempindex[3]=j-1;//column to check
+    }
+    
+    return(tempindex);
 }
