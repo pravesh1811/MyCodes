@@ -573,10 +573,12 @@ cout<<"\n";
 cout<<"sudokunonzerocount"<<sudokunonzerocount(Sudoku);
 cout<<"\n";
 
-while(sudokunonzerocount(Sudoku)<1)//should run till all the cells in Sudoku are non zero
+while(sudokunonzerocount(Sudoku)<1)//should run till all the cells in Sudoku are non zero or count is not 81
 {
 
 int totalloopcount=0;
+
+//This is where we find the calculate empty cells of Sudoku which can be calculated through commonin3->Leftcount1 method
 
 for (i=0;i<9;i++)
 {
@@ -765,11 +767,16 @@ for (i=0;i<9;i++)
 
 cout<<"The total loopcount is:\n\n"<<totalloopcount;
 
-cout<<"The final Sudoku output to user is:\n\n";
+//This is where we calculate blank cells of Sudoku through commonin3->RemainingRowsColumnsinBlock method
+//,those which couldn't be calculated in the above method
+
+//the entire code of Leftones and commonin3 goes here(except count logic)
+
+
 
 }//end of while
 
-
+cout<<"The final Sudoku output to user is:\n\n";
 
 for (i=0;i<9;i++)
 {
