@@ -576,11 +576,12 @@ for (i=0;i<9;i++)
 //int *rowref1,*rowref2, *rowref3, rowref1arr[9], rowref2arr[9], rowref3arr[9], *commonin3, counter;
 
 cout<<"\n";
-
-cout<<"sudokunonzerocount"<<sudokunonzerocount(Sudoku);
+cout<<"Initial sudokunonzerocount"<<sudokunonzerocount(Sudoku);
 cout<<"\n";
 
-while(sudokunonzerocount(Sudoku)<1)//should run till all the cells in Sudoku are non zero or count is not 81
+int whilecount=0;
+
+while(whilecount<=20)//(sudokunonzerocount(Sudoku)<1)//should run till all the cells in Sudoku are non zero or count is not 81
 {
 
 int totalloopcount=0;
@@ -951,24 +952,60 @@ for (i=0;i<9;i++)
             }
             
             //Searching the commonin3 outputs in the 4 entities returned from RemainingRowsColumnsinBlock:
-            int found=0;
+            int found;
             
-            //1st row:
+            //checking for all non zero elements in commonin3 and then checking those in all 4 entities one by one.
             for(m=0;m<9;m++)
             {
-            for(l=0;l<9;l++)
-            {
-                if(commoninarr[m]!=0 and Sudoku[index[0]][l]==commoninarr[m])
+                found=0;
+                
+                if(commoninarr[m]!=0)
                 {
-                    found++;
-                }
-            }
-            }
+                   for(l=0;l<9;l++)
+                    {
+                    if(Sudoku[index[0]][l]==commoninarr[m])
+                    {
+                       found++; 
+                    }
+                    }
+                    
+                    for(l=0;l<9;l++)
+                    {
+                    if(Sudoku[index[1]][l]==commoninarr[m])
+                    {
+                       found++; 
+                    }
+                    }
+                    
+                    for(l=0;l<9;l++)
+                    {
+                    if(Sudoku[l][index[2]]==commoninarr[m])
+                    {
+                       found++; 
+                    }
+                    }
+                    
+                    for(l=0;l<9;l++)
+                    {
+                    if(Sudoku[l][index[3]]==commoninarr[m])
+                    {
+                       found++; 
+                    }
+                    }
+                    
+                    if(found==4)
+                    {
+                       Sudoku[i][j] = commoninarr[m];
+                    }
+                }//end of if(commoninarr[m]!=0)
+            }//end of m loop
             
-        }//end of if
+        }//end of main if
     }//end of j
             
 }//end of i
+
+whilecount++;
 
 }//end of while
 
@@ -983,6 +1020,10 @@ for(k=0;k<4;k++)
     cout<<" index[k] ye hai: "<<index[k];
     cout<<"\n";
 }*/
+
+cout<<"\n";
+cout<<"Final sudokunonzerocount"<<sudokunonzerocount(Sudoku);
+cout<<"\n";
 
 cout<<"The final Sudoku output to user is:\n\n";
 
