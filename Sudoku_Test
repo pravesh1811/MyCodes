@@ -997,6 +997,16 @@ for (i=0;i<9;i++)
                     {
                        Sudoku[i][j] = commoninarr[m];
                     }
+                    
+                    if(found==3)
+                    {
+                       //Complex logic:
+                       //There will be only two elements that don't come in intersection of the 3 elements. 
+                       //One the cell which is to be filled and another one which is left. If the one left has some non zero
+                       //value, only then conclusion can be drawn
+                       Sudoku[i][j] = commoninarr[m];
+                    }
+                    
                 }//end of if(commoninarr[m]!=0)
             }//end of m loop
             
