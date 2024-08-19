@@ -1025,11 +1025,63 @@ for (i=0;i<9;i++)
                            
                            if(i%3==2)
                            {
+                               Sudoku[i-2][j] = commoninarr[m];
+                           }
+                       }
+                       
+                       if(arrrr[1]=0)
+                       {
+                           if(i%3==0)
+                           {
+                               Sudoku[i+2][j] = commoninarr[m];
+                           }
+                           
+                           if(i%3==1)
+                           {
+                               Sudoku[i+1][j] = commoninarr[m];
+                           }
+                           
+                           if(i%3==2)
+                           {
                                Sudoku[i-1][j] = commoninarr[m];
                            }
                        }
-                      
                        
+                       if(arrrr[2]=0)
+                       {
+                           if(j%3==0)
+                           {
+                               Sudoku[i][j+1] = commoninarr[m];
+                           }
+                           
+                           if(j%3==1)
+                           {
+                               Sudoku[i][j-1] = commoninarr[m];
+                           }
+                           
+                           if(j%3==2)
+                           {
+                               Sudoku[i][j-2] = commoninarr[m];
+                           }
+                       }
+                      
+                       if(arrrr[3]=0)
+                       {
+                           if(j%3==0)
+                           {
+                               Sudoku[i][j+2] = commoninarr[m];
+                           }
+                           
+                           if(j%3==1)
+                           {
+                               Sudoku[i][j+1] = commoninarr[m];
+                           }
+                           
+                           if(j%3==2)
+                           {
+                               Sudoku[i][j-1] = commoninarr[m];
+                           }
+                       }
                        
                     }
                     
