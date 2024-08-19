@@ -959,6 +959,8 @@ for (i=0;i<9;i++)
             {
                 found=0;
                 
+                int arrrr[4] = {0,0,0,0};
+                
                 if(commoninarr[m]!=0)
                 {
                    for(l=0;l<9;l++)
@@ -966,6 +968,7 @@ for (i=0;i<9;i++)
                     if(Sudoku[index[0]][l]==commoninarr[m])
                     {
                        found++; 
+                       arrrr[0] = 1;
                     }
                     }
                     
@@ -974,6 +977,7 @@ for (i=0;i<9;i++)
                     if(Sudoku[index[1]][l]==commoninarr[m])
                     {
                        found++; 
+                       arrrr[1] = 1;
                     }
                     }
                     
@@ -982,6 +986,7 @@ for (i=0;i<9;i++)
                     if(Sudoku[l][index[2]]==commoninarr[m])
                     {
                        found++; 
+                       arrrr[2] = 1;
                     }
                     }
                     
@@ -990,8 +995,10 @@ for (i=0;i<9;i++)
                     if(Sudoku[l][index[3]]==commoninarr[m])
                     {
                        found++; 
+                       arrrr[3] = 1;
                     }
                     }
+                    
                     
                     if(found==4)
                     {
@@ -1004,7 +1011,26 @@ for (i=0;i<9;i++)
                        //There will be only two elements that don't come in intersection of the 3 elements. 
                        //One the cell which is to be filled and another one which is left. If the one left has some non zero
                        //value, only then conclusion can be drawn
-                       Sudoku[i][j] = commoninarr[m];
+                       if(arrrr[0]=0)
+                       {
+                           if(i%3==0)
+                           {
+                               Sudoku[i+1][j] = commoninarr[m];
+                           }
+                           
+                           if(i%3==1)
+                           {
+                               Sudoku[i-1][j] = commoninarr[m];
+                           }
+                           
+                           if(i%3==2)
+                           {
+                               Sudoku[i-1][j] = commoninarr[m];
+                           }
+                       }
+                      
+                       
+                       
                     }
                     
                 }//end of if(commoninarr[m]!=0)
