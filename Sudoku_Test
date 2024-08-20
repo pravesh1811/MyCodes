@@ -1116,47 +1116,45 @@ for (i=0;i<9;i++)
                                Sudoku[i][j] = commoninarr[m];
                            }
                            
-                           if(i%3==0 and j%3==1 and )
+                           if(i%3==0 and j%3==1 and Sudoku[i+1][j]!=0 and Sudoku[i][j-1]!=0 and Sudoku[i+1][j-1]!=0)
                            {
                                Sudoku[i][j] = commoninarr[m];
                            }
                            
-                           if(i%3==0 and j%3==2 and )
+                           if(i%3==0 and j%3==2 and Sudoku[i+1][j]!=0 and Sudoku[i][j-2]!=0 and Sudoku[i+1][j-2]!=0)
                            {
                                Sudoku[i][j] = commoninarr[m];
                            }
                            
-                           if(i%3==1 and j%3==0 and )
+                           if(i%3==1 and j%3==0 and Sudoku[i][j+1]!=0 and Sudoku[i-1][j+1]!=0 and Sudoku[i-1][j]!=0)
                            {
                                Sudoku[i][j] = commoninarr[m];
                            }
                            
-                           if(i%3==1 and j%3==1 and )
+                           if(i%3==1 and j%3==1 and Sudoku[i][j-1]!=0 and Sudoku[i-1][j-1]!=0 and Sudoku[i-1][j]!=0)
                            {
                                Sudoku[i][j] = commoninarr[m];
                            }
                            
-                           if(i%3==1 and j%3==2 and )
+                           if(i%3==1 and j%3==2 and Sudoku[i][j-2]!=0 and Sudoku[i-1][j-2]!=0 and Sudoku[i-1][j]!=0)
                            {
                                Sudoku[i][j] = commoninarr[m];
                            }
                            
-                           if(i%3==2 and j%3==0 and )
+                           if(i%3==2 and j%3==0 and Sudoku[i][j+1]!=0 and Sudoku[i-2][j]!=0 and Sudoku[i-2][j+1]!=0)
                            {
                                Sudoku[i][j] = commoninarr[m];
                            }
                            
-                           if(i%3==2 and j%3==1 and )
+                           if(i%3==2 and j%3==1 and Sudoku[i][j-1]!=0 and Sudoku[i-2][j]!=0 and Sudoku[i-2][j-1]!=0)
                            {
                                Sudoku[i][j] = commoninarr[m];
                            }
                            
-                           if(i%3==2 and j%3==2 and )
+                           if(i%3==2 and j%3==2 and Sudoku[i][j-2]!=0 and Sudoku[i-2][j]!=0 and Sudoku[i-2][j-2]!=0)
                            {
                                Sudoku[i][j] = commoninarr[m];
                            }
-                           
-                           
                        }
                        
                        if(arrrr[0]==0 and arrrr[3]==0)//03....intersecting
