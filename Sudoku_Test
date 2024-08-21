@@ -581,7 +581,7 @@ cout<<"\n";
 
 int whilecount=0;
 
-while(whilecount<=20)//(sudokunonzerocount(Sudoku)<1)//should run till all the cells in Sudoku are non zero or count is not 81
+while(whilecount<=1)//(sudokunonzerocount(Sudoku)<1)//should run till all the cells in Sudoku are non zero or count is not 81
 {
 
 int totalloopcount=0;
@@ -1318,7 +1318,7 @@ for (i=0;i<9;i++)
                                Sudoku[i][j] = commoninarr[m];
                            }
                        }
-                    }
+                    }//end of found == 2
                     
                 }//end of if(commoninarr[m]!=0)
             }//end of m loop
